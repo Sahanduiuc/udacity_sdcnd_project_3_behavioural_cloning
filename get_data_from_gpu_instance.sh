@@ -11,11 +11,11 @@ project_dir="repos/udacity_carnd/project_3"
 
 remote_log_dir="${project_dir}/log"
 remote_model_dir="${project_dir}/model"
-remote_notebook_dir="${project_dir}/notebook"
+remote_notebook_dir="${project_dir}/notebooks"
 
 local_log_dir="${HOME}/${project_dir}/log"
 local_model_dir="${HOME}/${project_dir}/model"
-local_notebook_dir="${HOME}/${project_dir}/notebook"
+local_notebook_dir="${HOME}/${project_dir}/notebooks"
 
 mkdir -p "${local_log_dir}" && \
     scp -ri ~/.ssh/id_rsa "${instance}:"~"/${remote_log_dir}/"* "${local_log_dir}/"
