@@ -58,12 +58,12 @@ def data_generator(samples, shape, batch_size, correction, sensitivity,
             y = []
             for i, sample in enumerate(batch_samples):
                 # get steering angle
-                angle = float(line[4])
+                angle = float(sample[3])
 
                 # camera selection
                 #  -> drop near-0 angle data with probability
                 #  -> [0, 1, 2] = [center, left, right]
-                if abs(angle) < angle_threshold and np.random.random() < 0.7:
+                if abs(angle) < angle_threshold and np.random.random() < 0.5:
                     camera = np.random.choice([1, 2])
                 else:
                     camera = np.random.choice([0, 1, 2])
@@ -122,12 +122,12 @@ def build_model(input_shape, dropout):
     model.add(Lambda(lambda x: x / 255.0 - 0.5))
 
     # Convolution2D(filters, kernel, stride)
-    model.add(Convolution2D(6, 5, 5, subsample=(
-        2, 2), activation='relu', name='conv_1'))
-    model.add(Convolution2D(12, 5, 5, subsample=(
-        2, 2), activation='relu', name='conv_2'))
-    model.add(Convolution2D(48, 5, 5, subsample=(
-        2, 2), activation='relu', name='conv_3'))
+    model.add(Convolution2D(6, 5, 5, subsample=(2, 2), activation='relu',
+                            name='conv_1'))
+    model.add(Convolution2D(12, 5, 5, subsample=(2, 2), activation='relu',
+                            name='conv_2'))
+    model.add(Convolution2D(48, 5, 5, subsample=(2, 2), activation='relu',
+                            name='conv_3'))
 
     # apply spatial dropout
     model.add(SpatialDropout2D(dropout))
@@ -153,11 +153,11 @@ def run(samples):
     # model hyper-parameters
     epochs = [10, ]
     batch_sizes = [10, ]
-    dropout = [0.1, ]
+    dropout = [0.15, ]
 
     # camera hyper-parameters
-    corrections = [0.25, ]
-    sensitivity = [0, ]
+    corrections = [0.175, ]
+    sensitivity = [0.075, ]
     angle_threshold = [0.85, ]
 
     # set known image attributes
